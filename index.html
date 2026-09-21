@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>MOVA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --cream:#F7F5F0; --white:#FFFFFF; --sage:#8FA895; --olive:#3F5145; --terra:#C9856B; --charcoal:#29322D; --stone:#7C827D;
+  --bg:var(--cream); --surface:var(--white); --surface-2:#FAF8F4; --line:#E7E3DA; --line-2:#EFECE4;
+  --ink:var(--charcoal); --ink-2:#56605A; --ink-3:var(--stone);
+  --accent:var(--terra); --accent-hover:#B8735A; --accent-ink:#FFFFFF; --accent-soft:#F6E7E0; --accent-line:#EBCDBF; --accent-text:#A4533A;
+  --sage-soft:#E8EEE9; --sage-line:#CCDACF;
+  --good:#3F7A56; --good-soft:#E1EDE4; --warn:#8F5F12; --warn-soft:#F7EBD2; --bad:#B3382F; --bad-soft:#F8E2DE;
+  --pip:#A9BDAE; --pip-off:#ECE9E0;
+  --t-yoga:#A79BC8; --t-pilates:#8FA895; --t-hiit:#D9A066; --t-spin:#C98A9B; --t-boxing:#7FA3B5; --t-strength:#8C7B6B;
+  --shadow:0 1px 0 rgba(41,50,45,.03),0 14px 30px -22px rgba(63,81,69,.28);
+  --shadow-lg:0 28px 60px -24px rgba(41,50,45,.4);
+  --scrim:rgba(41,50,45,.38);
+  --r:14px; --r-sm:10px;
+  --font-d:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-b:'Figtree',ui-sans-serif,system-ui,sans-serif;
+  --font-m:'Figtree',ui-sans-serif,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html{overflow-y:scroll}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+h1,h2,h3,p{margin:0}
+:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
+.mono{font-variant-numeric:tabular-nums}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1100px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto;color:var(--olive)}
+.brand svg{flex:none}
+.brand .wm{display:flex;flex-direction:column;line-height:1}
+.brand b{font-family:var(--font-b);font-weight:700;font-size:19px;letter-spacing:.3em;margin-right:-.3em}
+.brand small{font-size:11.5px;color:var(--ink-3);letter-spacing:.02em;margin-top:5px}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;padding:7px 16px;border-radius:999px;font-weight:600;font-size:13.5px;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--olive);color:var(--cream)}
+.tools{display:flex;align-items:center;gap:8px;position:relative}
+.icon-btn{position:relative;display:grid;place-items:center;width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.icon-btn:hover{color:var(--ink);border-color:var(--sage)}
+.badge-dot{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:700;display:grid;place-items:center}
+.who{display:flex;align-items:center;gap:9px;font-size:13px;line-height:1.2;width:156px}
+.who div{min-width:0}
+.who b,.who span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who b{display:block;font-weight:600}.who span{color:var(--ink-3);font-size:12px}
+.avatar{border-radius:50%;display:grid;place-items:center;font-weight:700;color:var(--olive);flex:none;border:1px solid rgba(63,81,69,.12)}
+.demo-btn{display:flex;align-items:center;gap:6px;height:38px;padding:0 13px;border-radius:999px;border:1px dashed var(--sage);background:transparent;color:var(--ink-2);font-size:13px;font-weight:600}
+.demo-btn:hover{color:var(--olive);border-color:var(--olive)}
+
+/* layout */
+.wrap{max-width:1100px;margin:0 auto;padding:36px 20px 96px}
+.eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+h1{font-family:var(--font-d);font-weight:350;font-size:clamp(32px,4.8vw,48px);letter-spacing:-.025em;line-height:1.05;text-wrap:balance;color:var(--olive)}
+h1 em{font-style:italic;color:var(--accent)}
+h2{font-family:var(--font-d);font-weight:450;font-size:20px;letter-spacing:-.01em}
+.sub{color:var(--ink-2);max-width:50ch;margin-top:14px}
+.hello{display:flex;gap:28px;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;margin-bottom:34px}
+.next{min-width:min(100%,300px);background:var(--sage-soft);border:1px solid var(--sage-line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:2px}
+.next .lbl{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--olive)}
+.next b{font-family:var(--font-d);font-size:20px;font-weight:450;letter-spacing:-.01em;color:var(--ink)}
+.next span{color:var(--ink-2);font-size:13.5px}
+
+.tabs{display:flex;gap:26px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.tabs button{background:none;border:0;padding:10px 0;margin-bottom:-1px;border-bottom:2px solid transparent;font-weight:600;color:var(--ink-3);white-space:nowrap;display:flex;gap:8px;align-items:center}
+.tabs button[aria-selected="true"]{color:var(--olive);border-color:var(--olive)}
+.tabs .n{font-size:11.5px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:0 7px;color:var(--ink-2)}
+
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.day{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:10px 4px 9px;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--ink-2)}
+.day .w{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.day .d{font-family:var(--font-d);font-size:24px;font-weight:400;color:var(--ink);line-height:1.15}
+.day .c{font-size:11px;color:var(--ink-3)}
+.day:hover{border-color:var(--sage)}
+.day[aria-pressed="true"]{background:var(--olive);border-color:var(--olive);color:var(--cream)}
+.day[aria-pressed="true"] .d{color:var(--cream)}
+.day[aria-pressed="true"] .c{color:var(--sage-line)}
+
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.fchip{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 13px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.fchip:hover{border-color:var(--sage)}
+.fchip[aria-pressed="true"]{background:var(--sage-soft);border-color:var(--sage);color:var(--olive);font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex:none}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 14px}
+.panel-h small{color:var(--ink-3);font-size:13px}
+
+/* class rows */
+.row{display:grid;grid-template-columns:78px minmax(0,1.15fr) minmax(0,1fr) 214px;gap:8px 18px;align-items:center;padding:16px 20px;border-top:1px solid var(--line-2)}
+.row:first-child{border-top:0}
+.row.adm{grid-template-columns:70px minmax(0,1fr) minmax(0,1fr) 104px;gap:8px 14px}
+.row.click{cursor:pointer}.row.click:hover{background:var(--surface-2)}
+.row.past{opacity:.5}
+.time{display:flex;flex-direction:column;line-height:1.1}
+.time b{font-family:var(--font-d);font-weight:400;font-size:22px;letter-spacing:-.02em;font-variant-numeric:lining-nums}
+.time span{font-size:11.5px;color:var(--ink-3);font-weight:600;letter-spacing:.05em}
+.time small{font-size:11.5px;color:var(--ink-3);margin-top:3px}
+.name{font-family:var(--font-d);font-size:18px;font-weight:450;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.name.x{text-decoration:line-through;color:var(--ink-3)}
+.meta{display:flex;align-items:center;gap:7px;color:var(--ink-2);font-size:13.5px;margin-top:2px}
+.cap{display:flex;flex-direction:column;gap:7px;min-width:0}
+.pips{display:flex;flex-wrap:wrap;gap:4px}
+.pip{width:9px;height:9px;border-radius:50%;background:var(--pip)}
+.pip.off{background:transparent;box-shadow:inset 0 0 0 1.5px var(--pip-off)}
+.pip.me{background:var(--accent)}
+.pip.new{animation:pop .5s ease}
+@keyframes pop{0%{transform:scale(.3)}60%{transform:scale(1.4)}100%{transform:scale(1)}}
+.captext{font-size:13px;color:var(--ink-2);display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.captext b{font-weight:700;color:var(--ink)}
+.act{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);white-space:nowrap}
+.chip.good{background:var(--good-soft);color:var(--good);border-color:transparent}
+.chip.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.chip.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.chip.accent{background:var(--accent-soft);color:var(--accent-text);border-color:transparent}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--surface);padding:8px 16px;font-weight:600;font-size:14px;white-space:nowrap;transition:transform .08s,background .15s,border-color .15s}
+.btn:active{transform:scale(.97)}
+.btn:hover{border-color:var(--sage)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn.dark{background:var(--olive);border-color:var(--olive);color:var(--cream)}
+.btn.dark:hover{filter:brightness(1.15)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--ink-2)}
+.btn.ghost:hover{background:var(--surface-2);color:var(--ink)}
+.btn.danger{color:var(--bad)}
+.btn.danger:hover{border-color:var(--bad);background:var(--bad-soft)}
+.btn.solid-danger{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.sm{padding:5px 12px;font-size:13px;border-radius:9px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+
+.empty{padding:48px 20px;text-align:center;color:var(--ink-3)}
+.empty b{display:block;color:var(--ink-2);font-family:var(--font-d);font-weight:450;font-size:18px;margin-bottom:4px}
+
+/* admin */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:22px}
+.kpi{padding:20px 22px;border-left:1px solid var(--line-2)}
+.kpi:first-child{border-left:0}
+.kpi .v{font-family:var(--font-d);font-size:38px;font-weight:350;letter-spacing:-.03em;line-height:1.1;margin-top:6px;font-variant-numeric:lining-nums;color:var(--olive)}
+.kpi .v em{font-style:normal;font-size:18px;color:var(--ink-3);font-weight:400;margin-left:3px}
+.kpi p{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:22px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:22px}
+.attn{display:flex;gap:12px;padding:14px 20px;border-top:1px solid var(--line-2);align-items:flex-start}
+.attn .ic{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center}
+.attn .ic.warn{background:var(--warn-soft);color:var(--warn)}
+.attn .ic.bad{background:var(--accent-soft);color:var(--accent-text)}
+.attn .ic.good{background:var(--good-soft);color:var(--good)}
+.attn .ic.accent{background:var(--sage-soft);color:var(--olive)}
+.attn .ic.neutral{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+.attn .tx{flex:1;min-width:0;font-size:14px}
+.attn .tx b{font-weight:600}
+.attn .tx small{display:block;color:var(--ink-3);font-size:12.5px;margin-top:1px}
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+
+/* drawer + modal */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:40;animation:fade .18s ease}
+@keyframes fade{from{opacity:0}}
+.scrim.top{z-index:44}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--surface);z-index:41;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;animation:slide .22s cubic-bezier(.2,.8,.2,1);padding-top:env(safe-area-inset-top,0px)}
+@keyframes slide{from{transform:translateX(30px);opacity:0}}
+.drawer-h{padding:22px 24px 18px;border-bottom:1px solid var(--line);display:flex;gap:14px;justify-content:space-between;align-items:flex-start}
+.drawer-b{padding:20px 24px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:24px}
+.drawer-f{padding:14px 24px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.sect-t{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-weight:600;font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.stepper button{width:36px;height:36px;border:0;background:var(--surface-2);display:grid;place-items:center;color:var(--ink-2)}
+.stepper button:hover:not([disabled]){background:var(--sage-soft)}.stepper button[disabled]{opacity:.35;cursor:not-allowed}
+.stepper span{min-width:44px;text-align:center;font-family:var(--font-d);font-size:19px;font-variant-numeric:lining-nums}
+.person{display:flex;align-items:center;gap:11px;padding:8px 0;border-top:1px solid var(--line-2)}
+.person:first-of-type{border-top:0}
+.person .n{flex:1;min-width:0;font-weight:500;font-size:14.5px}
+.person .n small{color:var(--ink-3);margin-left:6px;font-weight:400}
+.pos{font-size:12px;color:var(--ink-3);width:22px;font-variant-numeric:tabular-nums}
+.addbar{display:flex;gap:8px}
+.mrow{display:flex;align-items:center;gap:14px;padding:13px 20px;border-top:1px solid var(--line-2)}
+.mrow .n{flex:1;min-width:0}
+.mrow .n b{font-weight:600;display:flex;gap:8px;align-items:center}
+.mrow .n small{display:block;color:var(--ink-3);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow .stat{width:92px;font-size:13px;color:var(--ink-2)}.mrow .stat b{color:var(--ink);font-weight:700}
+.mrow .plan{width:140px}
+.search{width:min(240px,100%)}
+@media (max-width:680px){.mrow .stat,.mrow .plan{display:none}}
+.field{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.input{width:100%;height:40px;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-sm);padding:0 11px;color:var(--ink);font-weight:400;font-size:14.5px}
+.input:focus-visible{border-color:var(--olive);outline-offset:0}
+select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%237C827D' stroke-width='2'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.modal{position:fixed;z-index:45;left:50%;top:50%;transform:translate(-50%,-50%);width:min(480px,calc(100% - 32px));max-height:calc(100% - 32px);overflow-y:auto;background:var(--surface);border-radius:18px;box-shadow:var(--shadow-lg);padding:26px;animation:rise .2s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{opacity:0;transform:translate(-50%,-46%)}}
+.modal.wide{width:min(720px,calc(100% - 32px))}
+.modal h2{font-size:24px;margin-bottom:6px;color:var(--olive);font-weight:400}
+.modal p{color:var(--ink-2)}
+.modal-f{display:flex;justify-content:flex-end;gap:8px;margin-top:22px;flex-wrap:wrap}
+.form2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.form2 .full{grid-column:1/-1}
+.callout{margin-top:14px;padding:10px 12px;border-radius:var(--r-sm);font-size:13.5px;background:var(--warn-soft);color:var(--warn)}
+.pop{position:absolute;top:46px;right:0;z-index:43;width:min(330px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-lg);padding:8px;animation:rise2 .16s ease}
+@keyframes rise2{from{opacity:0;transform:translateY(-6px)}}
+.popscrim{position:fixed;inset:0;z-index:42}
+.pop-i{display:flex;gap:11px;width:100%;text-align:left;border:0;background:none;padding:10px;border-radius:var(--r-sm);align-items:flex-start;color:var(--ink)}
+.pop-i:hover{background:var(--surface-2)}
+.pop-i .ic{flex:none;width:30px;height:30px;border-radius:50%;background:var(--sage-soft);color:var(--olive);display:grid;place-items:center}
+.pop-i b{display:block;font-size:14px;font-weight:600}.pop-i small{color:var(--ink-3);font-size:12.5px;line-height:1.35;display:block}
+.notif{padding:10px;border-radius:var(--r-sm);font-size:13.5px;display:flex;gap:10px}
+.notif.unread{background:var(--sage-soft)}
+.notif small{display:block;color:var(--ink-3);font-size:12px}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--olive);color:var(--cream);padding:11px 14px 11px 16px;border-radius:var(--r);display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-lg);width:max-content;max-width:calc(100% - 32px);animation:toast .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes toast{from{opacity:0;transform:translate(-50%,14px)}}
+.toast.good{background:var(--good);color:#fff}
+.toast button{border:0;background:rgba(255,255,255,.2);color:inherit;border-radius:8px;padding:4px 10px;font-weight:600;font-size:13px}
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:18px}
+.notes h3{font-family:var(--font-b);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);margin-bottom:10px}
+.notes ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:14px;color:var(--ink-2)}
+.notes li b{color:var(--ink)}
+.notes li::marker{color:var(--sage)}
+
+@media (max-width:860px){
+  .grid2{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi:nth-child(3){border-left:0}
+  .kpi:nth-child(n+3){border-top:1px solid var(--line-2)}
+}
+@media (max-width:680px){
+  .top-in{padding:10px 16px}
+  .seg{order:3;width:100%}.seg button{flex:1}
+  .who div{display:none}.who{width:auto}
+  .brand small{display:none}
+  .wrap{padding:24px 16px 90px}
+  .row,.row.adm{grid-template-columns:62px minmax(0,1fr);padding:16px}
+  .row .cap{grid-column:2}
+  .row .act{grid-column:1/-1;justify-content:stretch}
+  .row .act .btn{flex:1}
+  .days{gap:4px}.day .c{display:none}.day .d{font-size:20px}
+  .notes{grid-template-columns:1fr}
+  .form2{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/preact/standalone.umd.js"></script>
+<script>
+const { html, render, useState, useEffect, useRef } = htmPreact;
+
+/* ---------- time helpers (demo clock is fixed at 7:45 AM today) ---------- */
+const NOW_MIN = 7 * 60 + 45;
+const TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
+const WD = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const dateOf = off => { const d = new Date(TODAY); d.setDate(d.getDate() + off); return d; };
+const dayLong = off => off === 0 ? 'Today' : off === 1 ? 'Tomorrow' : WD[dateOf(off).getDay()];
+const dayFull = off => { const d = dateOf(off); return `${WD[d.getDay()]}, ${MON[d.getMonth()]} ${d.getDate()}`; };
+const toMin = s => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
+const pad = n => String(n).padStart(2, '0');
+const fmtMin = t => { let h = Math.floor(t / 60) % 24, m = t % 60; const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12; return `${h}:${pad(m)} ${ap}`; };
+const fmtT = s => fmtMin(toMin(s));
+const absStart = c => c.day * 1440 + toMin(c.start);
+const started = c => absStart(c) <= NOW_MIN;
+const hoursUntil = c => (absStart(c) - NOW_MIN) / 60;
+const when = c => `${dayLong(c.day)} · ${fmtT(c.start)}`;
+const untilText = c => { const m = absStart(c) - NOW_MIN; if (m < 60) return `in ${m} min`; const h = Math.floor(m / 60); return h < 24 ? `in ${h}h` : `in ${Math.round(h / 24)} day${h >= 36 ? 's' : ''}`; };
+
+/* ---------- seed data ---------- */
+const SEED_NAMES = ['Bruno Alves','Marina Costa','Lucas Ferreira','Julia Ramos','Pedro Lima','Beatriz Nunes','Rafael Duarte','Carla Prado','Thiago Melo','Larissa Campos','Gabriel Rocha','Fernanda Dias','Matheus Silva','Isabela Teixeira','Felipe Barros','Amanda Cardoso','Rodrigo Pinto','Sofia Andrade','Leonardo Freitas','Patricia Moura','Vinicius Araujo','Helena Castro','Daniel Ribeiro','Renata Lopes'];
+const SEED_IDS = SEED_NAMES.map((_, i) => 'm' + (i + 1));
+let LIVE = {};
+const nm = id => id === 'owner' ? 'Maria' : (LIVE[id] ? LIVE[id].name : '');
+const PLANS = ['Unlimited', '8 classes / month', '4 classes / month', 'Drop-in'];
+function seedMembers(){
+  const m = { me: { name: 'Ana Souza', contact: 'ana.souza@email.com', plan: 'Unlimited' } };
+  SEED_NAMES.forEach((n, i) => {
+    const r = mulberry(i + 3), [f, l] = n.toLowerCase().split(' ');
+    m['m' + (i + 1)] = { name: n, plan: PLANS[Math.floor(r() * 4)],
+      contact: i % 3 === 0 ? '@' + f + '.' + l : i % 3 === 1 ? '+55 11 9' + Math.floor(1000 + r() * 8999) + '-' + Math.floor(1000 + r() * 8999) : f + '.' + l + '@email.com' };
+  });
+  return m;
+}
+const initials = id => nm(id).split(' ').map(w => w[0]).slice(0, 2).join('');
+const AV = ['#8FA895','#C9856B','#A79BC8','#D9A066','#7FA3B5','#C98A9B','#8C7B6B','#3F5145'];
+const avColor = id => id === 'me' ? 'var(--accent)' : id === 'owner' ? '#8FA895' : AV[Number(id.slice(1)) % AV.length];
+
+const TYPES = {
+  yoga:     { label: 'Yoga',     color: 'var(--t-yoga)',     who: 'Camila Reis' },
+  pilates:  { label: 'Pilates',  color: 'var(--t-pilates)',  who: 'Lena Koch' },
+  hiit:     { label: 'Sculpt',   color: 'var(--t-hiit)',     who: 'Diego Martins' },
+  spin:     { label: 'Cycle',    color: 'var(--t-spin)',     who: 'Lena Koch' },
+  boxing:   { label: 'Barre',    color: 'var(--t-boxing)',   who: 'Camila Reis' },
+  strength: { label: 'Strength', color: 'var(--t-strength)', who: 'Rafa Torres' },
+};
+const INSTRUCTORS = ['Camila Reis', 'Lena Koch', 'Diego Martins', 'Rafa Torres'];
+const className = (type, start) => ({
+  yoga: toMin(start) < 600 ? 'Sunrise Yoga' : 'Slow Flow', pilates: 'Mat Pilates', hiit: 'Sculpt 30',
+  spin: 'Studio Cycle', boxing: 'Barre Fundamentals', strength: 'Strength Foundations',
+}[type]);
+const DUR = { yoga: 50, pilates: 50, hiit: 30, spin: 45, boxing: 55, strength: 45 };
+const CAP = { yoga: 12, pilates: 8, hiit: 10, spin: 14, boxing: 10, strength: 10 };
+const TEMPLATE = {
+  1: [['06:30','yoga'],['12:15','hiit'],['18:00','spin'],['19:15','strength']],
+  2: [['06:30','pilates'],['09:30','yoga'],['18:00','boxing'],['19:15','hiit']],
+  3: [['06:30','spin'],['12:15','strength'],['18:00','pilates'],['19:15','yoga']],
+  4: [['06:30','hiit'],['09:30','pilates'],['18:00','spin'],['19:15','boxing']],
+  5: [['06:30','yoga'],['12:15','hiit'],['17:30','strength']],
+  6: [['09:00','spin'],['10:15','boxing'],['11:30','yoga']],
+  0: [['10:00','pilates'],['11:15','yoga']],
+};
+
+function mulberry(a){ return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+function seedClasses(){
+  const rng = mulberry(11);
+  const shuffle = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const out = []; let id = 1;
+  for (let off = 0; off < 7; off++) {
+    const dow = (TODAY.getDay() + off) % 7;
+    TEMPLATE[dow].forEach(([start, type]) => {
+      const cap = CAP[type], r = rng();
+      const n = r < 0.13 ? cap : r < 0.55 ? cap - 1 - Math.floor(rng() * 2) : Math.floor(cap * (0.3 + rng() * 0.45));
+      const pool = shuffle(SEED_IDS);
+      const booked = pool.slice(0, n);
+      const waitlist = n >= cap ? pool.slice(n, n + Math.floor(rng() * 3)) : [];
+      out.push({ id: id++, day: off, start, type, name: className(type, start), instructor: TYPES[type].who, dur: DUR[type], cap, booked, waitlist, cancelled: false });
+    });
+  }
+  const byDay = off => out.filter(c => c.day === off);
+  const full = (c, wl) => { c.booked = shuffle(SEED_IDS).filter(x => !wl.includes(x)).slice(0, c.cap); c.waitlist = wl; };
+  // tomorrow's first class: full, Ana is first on the waitlist
+  const a = byDay(1)[0]; full(a, ['me', 'm20']);
+  // Ana is booked into today's last class and Thursday-ish first class
+  const b = byDay(0).filter(c => !started(c)); const bl = b[b.length - 1];
+  if (bl.booked.length >= bl.cap) bl.booked.pop(); bl.booked = bl.booked.filter(x => x !== 'me'); bl.booked.push('me'); bl.waitlist = [];
+  const c3 = byDay(3)[0]; c3.booked = c3.booked.slice(0, Math.min(c3.booked.length, c3.cap - 3)); c3.booked.push('me'); c3.waitlist = [];
+  // day after tomorrow: a full class Ana can try to join the waitlist for
+  const d2 = byDay(2)[1]; full(d2, ['m18']);
+  // tomorrow's last class: very low turnout (admin "needs attention")
+  const lo = byDay(1); const low = lo[lo.length - 1]; low.booked = shuffle(SEED_IDS).slice(0, 2); low.waitlist = [];
+  return out;
+}
+const seedActivity = () => [
+  { id: 'a1', kind: 'auto', text: 'Marina Costa moved off the waitlist into Studio Cycle', sub: 'Today · 6:00 PM · spot refilled automatically', time: '7:12 AM' },
+  { id: 'a2', kind: 'cancel', text: 'Bruno Alves cancelled Studio Cycle', sub: 'Today · 6:00 PM', time: '7:12 AM' },
+  { id: 'a3', kind: 'book', text: 'Larissa Campos booked Mat Pilates', sub: 'Tomorrow · 6:30 AM', time: '6:58 AM' },
+  { id: 'a4', kind: 'admin', text: 'Maria booked Pedro Lima into Strength Foundations', sub: 'Phone booking · Wed 12:15 PM', time: 'Yesterday' },
+];
+const initData = () => ({
+  members: seedMembers(),
+  classes: seedClasses(), activity: seedActivity(), nextId: 100, stats: { refilled: 14 },
+  notifs: [{ id: 'n0', text: 'Welcome to MOVA. Move well, feel better. Book your week in a couple of taps.', time: 'Yesterday', read: true }],
+});
+
+/* ---------- domain logic (operates on a draft copy of the data) ---------- */
+const findC = (d, id) => d.classes.find(c => c.id === id);
+function log(d, kind, text, sub){ d.activity.unshift({ id: 'a' + d.nextId++, kind, text, sub, time: 'Just now' }); }
+function refill(d, c){
+  const moved = [];
+  while (!c.cancelled && c.booked.length < c.cap && c.waitlist.length) {
+    const id = c.waitlist.shift(); c.booked.push(id); moved.push(id); d.stats.refilled++;
+    log(d, 'auto', `${nm(id)} moved off the waitlist into ${c.name}`, `${when(c)} · spot refilled automatically, member notified`);
+    if (id === 'me') d.notifs.unshift({ id: 'n' + d.nextId++, text: `You're in! A spot opened up in ${c.name} (${when(c)}) and you've been booked.`, time: 'Just now', read: false });
+  }
+  return moved;
+}
+function dropBooking(d, c, id, by, silent){
+  c.booked = c.booked.filter(x => x !== id);
+  if (!silent) log(d, 'cancel', by === 'admin' ? `Maria removed ${nm(id)} from ${c.name}` : `${nm(id)} cancelled ${c.name}`, when(c));
+  return refill(d, c);
+}
+const overlaps = (a, b) => a.day === b.day && toMin(a.start) < toMin(b.start) + b.dur && toMin(b.start) < toMin(a.start) + a.dur;
+const sortC = arr => arr.slice().sort((a, b) => absStart(a) - absStart(b));
+
+/* ---------- small UI pieces ---------- */
+const PATHS = {
+  check: 'M5 12.5l4.5 4.5L19 7.5', x: 'M6 6l12 12M18 6L6 18', plus: 'M12 5v14M5 12h14', minus: 'M5 12h14',
+  bell: 'M6 16v-5a6 6 0 1112 0v5l1.5 2h-15L6 16zM10 20a2 2 0 004 0',
+  users: 'M9 11a3 3 0 100-6 3 3 0 000 6zM3 19c0-3 2.7-5 6-5s6 2 6 5M16 5.2a3 3 0 010 5.6M18 14.3c1.8.7 3 2.3 3 4.7',
+  calendar: 'M4 9h16M8 3v3M16 3v3M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z',
+  bolt: 'M13 3L5 13h6l-1 8 8-10h-6l1-8z', flask: 'M9 3h6M10 3v6l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3',
+  refresh: 'M20 11a8 8 0 00-14-4L4 9M4 4v5h5M4 13a8 8 0 0014 4l2-2M20 20v-5h-5',
+  note: 'M6 3h9l4 4v13a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1zM14 3v5h5M8 13h8M8 17h5',
+  arrow: 'M5 12h14M13 6l6 6-6 6', clock: 'M12 7v5l3 2M12 21a9 9 0 100-18 9 9 0 000 18z',
+  alert: 'M12 4l9 16H3L12 4zM12 10v4M12 17.5v.01', trend: 'M4 17l6-6 4 4 6-8',
+};
+const Icon = ({ n, s = 18 }) => html`<svg width=${s} height=${s} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=${PATHS[n]} /></svg>`;
+const Chip = ({ tone = '', children }) => html`<span class=${'chip ' + tone}>${children}</span>`;
+const Avatar = ({ id, s = 32 }) => html`<span class="avatar" style=${`background:color-mix(in srgb, ${avColor(id)} 30%, #fff);width:${s}px;height:${s}px;font-size:${Math.round(s * .38)}px`}>${initials(id)}</span>`;
+
+function Pips({ c, flash }){
+  const items = [];
+  for (let i = 0; i < c.cap; i++) {
+    const id = c.booked[i];
+    items.push(html`<i class=${'pip' + (id ? '' : ' off') + (id === 'me' ? ' me' : '') + (flash && i === c.booked.length - 1 ? ' new' : '')}></i>`);
+  }
+  return html`<div class="pips" role="img" aria-label=${`${c.booked.length} of ${c.cap} spots booked`}>${items}</div>`;
+}
+function CapText({ c }){
+  const left = c.cap - c.booked.length;
+  return html`<div class="captext">
+    <span><b>${c.booked.length}/${c.cap}</b> booked</span>
+    ${c.cancelled ? html`<${Chip} tone="bad">Cancelled<//>`
+      : started(c) ? null
+      : left <= 0 ? html`<${Chip} tone="bad">Full${c.waitlist.length ? ` · ${c.waitlist.length} waiting` : ''}<//>`
+      : left <= 3 ? html`<${Chip} tone="warn">${left} spot${left > 1 ? 's' : ''} left<//>`
+      : html`<span style="color:var(--good);font-weight:600">${left} open</span>`}
+  </div>`;
+}
+function TimeCol({ c }){
+  const [t, ap] = fmtT(c.start).split(' ');
+  return html`<div class="time"><b>${t}</b><span>${ap}</span><small>${c.dur} min</small></div>`;
+}
+function ClassInfo({ c }){
+  return html`<div>
+    <div class=${'name' + (c.cancelled ? ' x' : '')}>${c.name}</div>
+    <div class="meta"><i class="dot" style=${'background:' + TYPES[c.type].color}></i>${TYPES[c.type].label} · ${c.instructor}</div>
+  </div>`;
+}
+
+/* ---------- member ---------- */
+function MemberRow({ c, a, flash }){
+  const isBooked = c.booked.includes('me'), pos = c.waitlist.indexOf('me'), full = c.booked.length >= c.cap;
+  const past = started(c);
+  let action;
+  if (c.cancelled) action = html`<${Chip} tone="bad">Class cancelled<//>`;
+  else if (past) action = html`<${Chip}>${isBooked ? 'Attended' : 'Started'}<//>`;
+  else if (isBooked) action = html`<${Chip} tone="good"><${Icon} n="check" s=${14} /> You're booked<//><button class="btn sm ghost" onClick=${() => a.askCancel(c)}>Cancel</button>`;
+  else if (pos >= 0) action = html`<${Chip} tone="accent">Waitlist #${pos + 1}<//><button class="btn sm ghost" onClick=${() => a.leaveWait(c)}>Leave</button>`;
+  else if (full) action = html`<button class="btn" onClick=${() => a.joinWait(c)}>Join waitlist</button>`;
+  else action = html`<button class="btn primary" onClick=${() => a.book(c)}>Book</button>`;
+  return html`<div class=${'row' + (past || c.cancelled ? ' past' : '')}>
+    <${TimeCol} c=${c} /><${ClassInfo} c=${c} />
+    <div class="cap"><${Pips} c=${c} flash=${flash} /><${CapText} c=${c} /></div>
+    <div class="act">${action}</div>
+  </div>`;
+}
+
+function DayStrip({ classes, day, setDay }){
+  return html`<div class="days" role="group" aria-label="Choose a day">
+    ${[0,1,2,3,4,5,6].map(off => {
+      const n = classes.filter(c => c.day === off && !c.cancelled).length;
+      return html`<button class="day" aria-pressed=${day === off} onClick=${() => setDay(off)}>
+        <span class="w">${off === 0 ? 'Today' : WD[dateOf(off).getDay()].slice(0, 3)}</span>
+        <span class="d">${dateOf(off).getDate()}</span><span class="c">${n} classes</span>
+      </button>`;
+    })}
+  </div>`;
+}
+
+function MemberView({ d, a, ui }){
+  const [tab, setTab] = useState('book');
+  const [day, setDay] = useState(0);
+  const [type, setType] = useState('all');
+  const mine = sortC(d.classes.filter(c => c.booked.includes('me') && !c.cancelled && !started(c)));
+  const waits = sortC(d.classes.filter(c => c.waitlist.includes('me') && !c.cancelled && !started(c)));
+  const next = mine[0];
+  const list = sortC(d.classes.filter(c => c.day === day && (type === 'all' || c.type === type)));
+  return html`<div class="wrap">
+    <div class="hello">
+      <div>
+        <p class="eyebrow">${dayFull(0)}</p>
+        <h1>Good morning, <em>Ana</em>.</h1>
+        <p class="sub">Book a class in two taps. If it's full, join the waitlist and you'll be booked automatically the moment a spot opens.</p>
+      </div>
+      ${next ? html`<div class="next"><span class="lbl">Next up</span><b>${next.name}</b><span>${when(next)} · ${untilText(next)}</span></div>`
+             : html`<div class="next"><span class="lbl">Next up</span><b>Nothing booked yet</b><span>Pick a class below.</span></div>`}
+    </div>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected=${tab === 'book'} onClick=${() => setTab('book')}>Book a class</button>
+      <button role="tab" aria-selected=${tab === 'mine'} onClick=${() => setTab('mine')}>My bookings <span class="n">${mine.length + waits.length}</span></button>
+    </div>
+    ${tab === 'book' ? html`
+      <${DayStrip} classes=${d.classes} day=${day} setDay=${setDay} />
+      <div class="filters">
+        ${['all', ...Object.keys(TYPES)].map(t => html`<button class="fchip" aria-pressed=${type === t} onClick=${() => setType(t)}>
+          ${t !== 'all' && html`<i class="dot" style=${'background:' + TYPES[t].color}></i>`}${t === 'all' ? 'All classes' : TYPES[t].label}</button>`)}
+      </div>
+      <div class="panel">
+        <div class="panel-h"><h2>${dayFull(day)}</h2><small>${list.length} class${list.length === 1 ? '' : 'es'}</small></div>
+        ${list.length ? list.map(c => html`<${MemberRow} key=${c.id} c=${c} a=${a} flash=${ui.flashId === c.id} />`)
+          : html`<div class="empty"><b>No classes match</b>Try another day or clear the filter.</div>`}
+      </div>` : html`
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-h"><h2>Upcoming</h2><small>${mine.length} booked</small></div>
+          ${mine.length ? mine.map(c => html`<${MemberRow} key=${c.id} c=${c} a=${a} />`)
+            : html`<div class="empty"><b>No upcoming classes</b>Head to “Book a class” to grab a spot.</div>`}
+        </div>
+        <div class="panel">
+          <div class="panel-h"><h2>On the waitlist</h2><small>Auto-booked when a spot opens</small></div>
+          ${waits.length ? waits.map(c => html`<${MemberRow} key=${c.id} c=${c} a=${a} />`)
+            : html`<div class="empty"><b>You're not on any waitlist</b>Full classes will show a “Join waitlist” button.</div>`}
+        </div>
+      </div>`}
+  </div>`;
+}
+
+/* ---------- admin ---------- */
+function AdminRow({ c, onOpen }){
+  const past = started(c);
+  return html`<div class=${'row adm click' + (past ? ' past' : '')} onClick=${() => onOpen(c.id)}>
+    <${TimeCol} c=${c} /><${ClassInfo} c=${c} />
+    <div class="cap"><${Pips} c=${c} /><${CapText} c=${c} /></div>
+    <div class="act"><button class="btn sm" onClick=${e => { e.stopPropagation(); onOpen(c.id); }}>Manage <${Icon} n="arrow" s=${14} /></button></div>
+  </div>`;
+}
+
+function AdminView({ d, a }){
+  const [tab, setTab] = useState('overview');
+  const [day, setDay] = useState(0);
+  const live = d.classes.filter(c => !c.cancelled && !started(c));
+  const cap = live.reduce((s, c) => s + c.cap, 0), bk = live.reduce((s, c) => s + c.booked.length, 0);
+  const todayList = sortC(d.classes.filter(c => c.day === 0));
+  const openToday = todayList.filter(c => !c.cancelled && !started(c)).reduce((s, c) => s + c.cap - c.booked.length, 0);
+  const waiting = live.reduce((s, c) => s + c.waitlist.length, 0);
+  const attn = [];
+  sortC(live).filter(c => c.waitlist.length).forEach(c => attn.push({ tone: 'bad', ic: 'users', c, title: `${c.name} is full`, sub: `${when(c)} · ${c.waitlist.length} waiting. Raise capacity to seat them.`, cta: 'Review' }));
+  sortC(live).filter(c => hoursUntil(c) < 40 && c.booked.length / c.cap < 0.3).forEach(c => attn.push({ tone: 'warn', ic: 'trend', c, title: `Low turnout: ${c.name}`, sub: `${when(c)} · only ${c.booked.length} of ${c.cap} booked.`, cta: 'Review' }));
+  const kindIc = { book: ['accent', 'check'], cancel: ['warn', 'x'], auto: ['good', 'refresh'], admin: ['neutral', 'note'] };
+  return html`<div class="wrap">
+    <div class="head-row">
+      <div><p class="eyebrow">Admin · ${dayFull(0)}</p><h1>Studio overview</h1></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onClick=${() => a.openMember()}><${Icon} n="users" s=${16} /> Add member</button><button class="btn primary" onClick=${() => a.openNew()}><${Icon} n="plus" s=${16} /> New class</button></div>
+    </div>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected=${tab === 'overview'} onClick=${() => setTab('overview')}>Overview</button>
+      <button role="tab" aria-selected=${tab === 'schedule'} onClick=${() => setTab('schedule')}>Schedule</button>
+      <button role="tab" aria-selected=${tab === 'members'} onClick=${() => setTab('members')}>Members <span class="n">${Object.keys(d.members).length}</span></button>
+    </div>
+    ${tab === 'overview' ? html`
+      <div class="panel kpis">
+        <div class="kpi"><span class="eyebrow">Fill rate · next 7 days</span><div class="v">${Math.round(bk / cap * 100)}<em>%</em></div><p>${bk} of ${cap} spots booked</p></div>
+        <div class="kpi"><span class="eyebrow">Open spots today</span><div class="v">${openToday}</div><p>across ${todayList.filter(c => !started(c) && !c.cancelled).length} upcoming classes</p></div>
+        <div class="kpi"><span class="eyebrow">On waitlists now</span><div class="v">${waiting}</div><p>people waiting for a spot</p></div>
+        <div class="kpi"><span class="eyebrow">Refilled this week</span><div class="v">${d.stats.refilled}</div><p>spots recovered from cancellations</p></div>
+      </div>
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-h"><h2>Today's classes</h2><small>Live capacity</small></div>
+          ${todayList.map(c => html`<${AdminRow} key=${c.id} c=${c} onOpen=${a.openDrawer} />`)}
+        </div>
+        <div class="stack">
+          <div class="panel">
+            <div class="panel-h"><h2>Needs attention</h2><${Chip} tone=${attn.length ? 'warn' : 'good'}>${attn.length}<//></div>
+            ${attn.length ? attn.slice(0, 4).map(x => html`<div class="attn">
+              <span class=${'ic ' + x.tone}><${Icon} n=${x.ic} s=${16} /></span>
+              <div class="tx"><b>${x.title}</b><small>${x.sub}</small></div>
+              <button class="btn sm" onClick=${() => a.openDrawer(x.c.id)}>${x.cta}</button>
+            </div>`) : html`<div class="empty"><b>All clear</b>No waitlists or low-turnout classes.</div>`}
+          </div>
+          <div class="panel">
+            <div class="panel-h"><h2>Live activity</h2><small>Bookings, cancellations, refills</small></div>
+            ${d.activity.slice(0, 7).map(x => html`<div class="attn">
+              <span class=${'ic ' + kindIc[x.kind][0]}><${Icon} n=${kindIc[x.kind][1]} s=${16} /></span>
+              <div class="tx"><b>${x.text}</b><small>${x.sub}</small></div>
+              <span class="mono" style="font-size:12px;color:var(--ink-3);white-space:nowrap">${x.time}</span>
+            </div>`)}
+          </div>
+        </div>
+      </div>` : tab === 'members' ? html`<${MembersPanel} d=${d} a=${a} />` : html`
+      <${DayStrip} classes=${d.classes} day=${day} setDay=${setDay} />
+      <div class="panel">
+        <div class="panel-h"><h2>${dayFull(day)}</h2><small>Click a class to see the roster and waitlist</small></div>
+        ${sortC(d.classes.filter(c => c.day === day)).map(c => html`<${AdminRow} key=${c.id} c=${c} onOpen=${a.openDrawer} />`)}
+      </div>`}
+  </div>`;
+}
+
+function MembersPanel({ d, a }){
+  const [q, setQ] = useState('');
+  const num = id => Number(id.slice(1));
+  const isNew = id => num(id) >= 100;
+  const ids = Object.keys(d.members).filter(id => d.members[id].name.toLowerCase().includes(q.trim().toLowerCase()))
+    .sort((x, y) => (isNew(y) - isNew(x)) || (isNew(x) && isNew(y) ? num(y) - num(x) : d.members[x].name.localeCompare(d.members[y].name)));
+  const cnt = (id, key) => d.classes.filter(c => !c.cancelled && !started(c) && c[key].includes(id)).length;
+  return html`<div class="panel">
+    <div class="panel-h"><h2>Members</h2><input id="member-search" class="input search" placeholder="Search by name" value=${q} onInput=${e => setQ(e.target.value)} /></div>
+    ${ids.length ? ids.map(id => html`<div class="mrow" key=${id}>
+      <${Avatar} id=${id} s=${36} />
+      <div class="n"><b>${d.members[id].name}${isNew(id) && html`<${Chip} tone="good">New<//>`}${id === 'me' && html`<${Chip}>Demo member<//>`}</b><small>${d.members[id].contact || 'No contact yet'}</small></div>
+      <span class="plan"><${Chip}>${d.members[id].plan}<//></span>
+      <span class="stat"><b>${cnt(id, 'booked')}</b> booked</span>
+      <span class="stat"><b>${cnt(id, 'waitlist')}</b> waitlisted</span>
+    </div>`) : html`<div class="empty"><b>No one matches “${q}”</b>Check the spelling, or add them as a new member.</div>`}
+  </div>`;
+}
+
+function MemberModal({ a, then, onClose }){
+  const [f, setF] = useState({ name: '', contact: '', plan: PLANS[1] });
+  const set = (k, v) => setF(p => ({ ...p, [k]: v }));
+  const ok = f.name.trim().length > 1;
+  const save = () => { if (!ok) return; a.addMember(f, then); onClose(); };
+  return html`<div>
+    <div class="scrim top" onClick=${onClose}></div>
+    <div class="modal" role="dialog" aria-label="Add member">
+      <h2>Add a member</h2><p>${then ? 'They will be added to your member list and booked into this class.' : 'Add someone who signed up by phone, DM or at the front desk.'}</p>
+      <div class="form2">
+        <label class="field full">Full name<input id="mem-name" class="input" autofocus placeholder="e.g. Clara Mendes" value=${f.name} onInput=${e => set('name', e.target.value)} onKeyDown=${e => e.key === 'Enter' && save()} /></label>
+        <label class="field full">Phone, Instagram or email<input id="mem-contact" class="input" placeholder="+55 11 98888-7777 or @clara.mendes" value=${f.contact} onInput=${e => set('contact', e.target.value)} onKeyDown=${e => e.key === 'Enter' && save()} /></label>
+        <label class="field full">Plan<select id="mem-plan" class="input" value=${f.plan} onChange=${e => set('plan', e.target.value)}>${PLANS.map(p => html`<option value=${p}>${p}</option>`)}</select></label>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink-3);margin-top:12px">Plans are just a label for now. Payments and class limits are still an open question.</p>
+      <div class="modal-f"><button class="btn" onClick=${onClose}>Discard</button>
+        <button class="btn primary" disabled=${!ok} onClick=${save}>${then ? 'Add and book' : 'Add member'}</button></div>
+    </div>
+  </div>`;
+}
+
+function ClassDrawer({ c, a, onClose }){
+  const [pick, setPick] = useState('');
+  const avail = Object.keys(LIVE).filter(id => !c.booked.includes(id) && !c.waitlist.includes(id));
+  const isFull = c.booked.length >= c.cap;
+  const past = started(c);
+  return html`<div>
+    <div class="scrim" onClick=${onClose}></div>
+    <aside class="drawer" role="dialog" aria-label=${c.name}>
+      <div class="drawer-h">
+        <div>
+          <div class="meta" style="margin:0 0 6px"><i class="dot" style=${'background:' + TYPES[c.type].color}></i>${TYPES[c.type].label} · ${c.instructor}</div>
+          <h2 style="font-size:24px">${c.name}</h2>
+          <p style="color:var(--ink-2);margin-top:2px">${dayFull(c.day)} · ${fmtT(c.start)} · ${c.dur} min</p>
+        </div>
+        <button class="icon-btn" onClick=${onClose} aria-label="Close"><${Icon} n="x" /></button>
+      </div>
+      <div class="drawer-b">
+        <div>
+          <div class="sect-t"><span>Capacity</span>${c.cancelled ? html`<${Chip} tone="bad">Cancelled<//>` : isFull ? html`<${Chip} tone="bad">Full<//>` : html`<${Chip} tone="good">${c.cap - c.booked.length} open<//>`}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+            <div class="cap"><${Pips} c=${c} /><div class="captext"><b>${c.booked.length}/${c.cap}</b> booked · <b>${c.waitlist.length}</b> waiting</div></div>
+            <div class="stepper" role="group" aria-label="Capacity">
+              <button aria-label="Decrease capacity" disabled=${c.cap <= c.booked.length || c.cancelled} onClick=${() => a.setCap(c, c.cap - 1)}><${Icon} n="minus" s=${16} /></button>
+              <span>${c.cap}</span>
+              <button aria-label="Increase capacity" disabled=${c.cap >= 30 || c.cancelled} onClick=${() => a.setCap(c, c.cap + 1)}><${Icon} n="plus" s=${16} /></button>
+            </div>
+          </div>
+          ${c.waitlist.length > 0 && isFull && html`<p style="font-size:13px;color:var(--ink-3);margin-top:10px">Raising capacity seats waitlisted members automatically, in order.</p>`}
+        </div>
+        ${!c.cancelled && !past && html`<div>
+          <div class="sect-t"><span>Add a member</span><span style="text-transform:none;letter-spacing:0;font-weight:400">For phone or DM bookings</span></div>
+          <div class="addbar">
+            <select id="add-member" class="input" value=${pick} onChange=${e => setPick(e.target.value)}>
+              <option value="">Choose a member…</option>
+              ${avail.map(id => html`<option value=${id}>${nm(id)}</option>`)}
+            </select>
+            <button class="btn dark" disabled=${!pick} onClick=${() => { a.adminAdd(c, pick); setPick(''); }}>${isFull ? 'Waitlist' : 'Book'}</button>
+          </div>
+          <button class="btn sm ghost" style="margin-top:8px" onClick=${() => a.openMember(c.id)}><${Icon} n="plus" s=${14} /> New to MOVA? Add them and ${isFull ? 'waitlist' : 'book'}</button>
+        </div>`}
+        <div>
+          <div class="sect-t"><span>Booked (${c.booked.length})</span></div>
+          ${c.booked.length ? c.booked.map(id => html`<div class="person"><${Avatar} id=${id} s=${30} />
+            <span class="n">${nm(id)}${id === 'me' && html`<small>demo member</small>`}</span>
+            ${!past && !c.cancelled && html`<button class="btn sm ghost danger" onClick=${() => a.adminRemove(c, id)}>Remove</button>`}</div>`)
+            : html`<p style="color:var(--ink-3);font-size:14px">Nobody yet.</p>`}
+        </div>
+        <div>
+          <div class="sect-t"><span>Waitlist (${c.waitlist.length})</span></div>
+          ${c.waitlist.length ? c.waitlist.map((id, i) => html`<div class="person"><span class="pos">#${i + 1}</span><${Avatar} id=${id} s=${30} />
+            <span class="n">${nm(id)}${id === 'me' && html`<small>demo member</small>`}</span>
+            <button class="btn sm ghost danger" onClick=${() => a.adminDropWait(c, id)}>Remove</button></div>`)
+            : html`<p style="color:var(--ink-3);font-size:14px">No one waiting. When the class fills up, members can queue here.</p>`}
+        </div>
+      </div>
+      <div class="drawer-f">
+        ${!c.cancelled && !past ? html`<button class="btn danger" onClick=${() => a.askCancelClass(c)}>Cancel class</button>` : html`<span></span>`}
+        <button class="btn" onClick=${onClose}>Done</button>
+      </div>
+    </aside>
+  </div>`;
+}
+
+function NewClassModal({ a, onClose }){
+  const [f, setF] = useState({ type: 'yoga', name: 'Slow Flow', instructor: 'Camila Reis', day: 1, start: '18:00', dur: 50, cap: 12 });
+  const set = (k, v) => setF(p => ({ ...p, [k]: v }));
+  const onType = t => setF(p => ({ ...p, type: t, name: className(t, p.start), instructor: TYPES[t].who, dur: DUR[t], cap: CAP[t] }));
+  return html`<div>
+    <div class="scrim top" onClick=${onClose}></div>
+    <div class="modal" role="dialog" aria-label="New class">
+      <h2>New class</h2><p>It appears on the member schedule right away.</p>
+      <div class="form2">
+        <label class="field">Type<select id="nc-type" class="input" value=${f.type} onChange=${e => onType(e.target.value)}>${Object.keys(TYPES).map(t => html`<option value=${t}>${TYPES[t].label}</option>`)}</select></label>
+        <label class="field">Class name<input id="nc-name" class="input" value=${f.name} onInput=${e => set('name', e.target.value)} /></label>
+        <label class="field">Day<select id="nc-day" class="input" value=${f.day} onChange=${e => set('day', Number(e.target.value))}>${[0,1,2,3,4,5,6].map(o => html`<option value=${o}>${dayFull(o)}</option>`)}</select></label>
+        <label class="field">Start time<input id="nc-start" class="input" type="time" value=${f.start} onInput=${e => set('start', e.target.value)} /></label>
+        <label class="field">Instructor<select id="nc-inst" class="input" value=${f.instructor} onChange=${e => set('instructor', e.target.value)}>${INSTRUCTORS.map(n => html`<option value=${n}>${n}</option>`)}</select></label>
+        <div class="form2" style="margin:0;grid-template-columns:1fr 1fr;gap:10px">
+          <label class="field">Minutes<input id="nc-dur" class="input mono" type="number" min="15" max="120" step="5" value=${f.dur} onInput=${e => set('dur', Number(e.target.value))} /></label>
+          <label class="field">Spots<input id="nc-cap" class="input mono" type="number" min="1" max="30" value=${f.cap} onInput=${e => set('cap', Number(e.target.value))} /></label>
+        </div>
+      </div>
+      <div class="modal-f"><button class="btn" onClick=${onClose}>Discard</button>
+        <button class="btn primary" disabled=${!f.name.trim() || !f.start || f.cap < 1} onClick=${() => { a.addClass(f); onClose(); }}>Add to schedule</button></div>
+    </div>
+  </div>`;
+}
+
+function Confirm({ m, onClose }){
+  return html`<div>
+    <div class="scrim top" onClick=${onClose}></div>
+    <div class="modal" role="alertdialog" aria-label=${m.title}>
+      <h2>${m.title}</h2><p>${m.body}</p>
+      ${m.warn && html`<div class="callout">${m.warn}</div>`}
+      <div class="modal-f"><button class="btn" onClick=${onClose}>${m.keep || 'Keep it'}</button>
+        <button class="btn solid-danger" onClick=${() => { m.onConfirm(); onClose(); }}>${m.confirm}</button></div>
+    </div>
+  </div>`;
+}
+
+function NotesModal({ onClose }){
+  return html`<div>
+    <div class="scrim top" onClick=${onClose}></div>
+    <div class="modal wide" role="dialog" aria-label="Discussion notes">
+      <h2>What I captured, and what I still need from you</h2>
+      <p>MOVA · Move well. Feel better. Everything here is a mocked, in-browser prototype.</p>
+      <div class="notes">
+        <div>
+          <h3>Requirements I built for</h3>
+          <ul>
+            <li><b>Members book and cancel online</b> instead of calling or DMing.</li>
+            <li><b>Real-time capacity</b> on every class, so nothing overbooks.</li>
+            <li><b>Waitlist with automatic refill</b>: a cancellation seats the next person instantly.</li>
+            <li><b>One place to manage the schedule</b> replacing the spreadsheet: add classes, change capacity, cancel, see rosters.</li>
+            <li><b>Phone and DM bookings still work</b>: Maria can add a member herself.</li>
+          </ul>
+          <h3 style="margin-top:18px">Assumptions to confirm</h3>
+          <ul>
+            <li>Members sign in; there is one shared schedule and one room.</li>
+            <li>The waitlist auto-books the first person, with no confirmation step.</li>
+            <li>A member can't hold two overlapping classes.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Open questions for Maria</h3>
+          <ul>
+            <li><b>Waitlist style:</b> book instantly, or offer the spot with a 15-minute window to claim it?</li>
+            <li><b>Cancellation rules:</b> is there a cutoff (say 2 hours) and a late-cancel penalty?</li>
+            <li><b>Money:</b> memberships, class packs or drop-in payments, in v1 or later?</li>
+            <li><b>Joining:</b> for now Maria adds new members herself. Should people also sign up on their own, and can we import the current list?</li>
+            <li><b>Notifications:</b> email, SMS, WhatsApp or push when a spot opens?</li>
+            <li><b>Schedule:</b> a repeating weekly template, or planned week by week?</li>
+            <li><b>Limits:</b> how far ahead can people book, and how many classes per week?</li>
+            <li><b>Reporting:</b> do you need attendance, no-shows or check-in at the door?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-f"><button class="btn primary" onClick=${onClose}>Got it</button></div>
+    </div>
+  </div>`;
+}
+
+/* ---------- app shell ---------- */
+function App(){
+  const [d, setD] = useState(initData);
+  LIVE = d.members;
+  const ref = useRef(d); ref.current = d;
+  const [role, setRole] = useState(location.hash === '#admin' ? 'admin' : 'member');
+  const [drawerId, setDrawerId] = useState(null);
+  const [modal, setModal] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [pop, setPop] = useState(null);
+  const [flashId, setFlashId] = useState(null);
+  const run = fn => { const n = JSON.parse(JSON.stringify(ref.current)); LIVE = n.members; const r = fn(n); ref.current = n; setD(n); return r; };
+  const say = (msg, extra = {}) => setToast({ id: Math.random(), msg, ...extra });
+
+  useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(null), 5000); return () => clearTimeout(t); }, [toast]);
+  useEffect(() => { const k = e => { if (e.key === 'Escape') { setDrawerId(null); setModal(null); setPop(null); } }; window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k); }, []);
+
+  const A = {
+    book(c) {
+      const clash = ref.current.classes.find(o => o.id !== c.id && o.booked.includes('me') && !o.cancelled && overlaps(o, c));
+      if (clash) return say(`That overlaps with ${clash.name} at ${fmtT(clash.start)}.`);
+      run(n => { const x = findC(n, c.id); x.booked.push('me'); log(n, 'book', `${nm('me')} booked ${x.name}`, when(x)); });
+      setFlashId(c.id); setTimeout(() => setFlashId(null), 700);
+      say(`Booked ${c.name} · ${when(c)}`, { action: 'Undo', fn: () => run(n => { const x = findC(n, c.id); dropBooking(n, x, 'me', 'self', true); }) });
+    },
+    joinWait(c) { run(n => { const x = findC(n, c.id); x.waitlist.push('me'); log(n, 'book', `${nm('me')} joined the waitlist for ${x.name}`, when(x)); }); say(`You're on the waitlist for ${c.name}. We'll book you in automatically.`); },
+    leaveWait(c) { run(n => { const x = findC(n, c.id); x.waitlist = x.waitlist.filter(i => i !== 'me'); }); say(`Left the waitlist for ${c.name}.`); },
+    askCancel(c) {
+      const late = hoursUntil(c) < 2;
+      setModal({ kind: 'confirm', title: `Cancel ${c.name}?`, body: c.waitlist.length ? `Your spot goes straight to the next person on the waitlist (${c.waitlist.length} waiting).` : 'Your spot reopens for other members.', warn: late ? 'This class starts in under 2 hours, so it may count as a late cancellation.' : null, confirm: 'Cancel booking', keep: 'Keep booking',
+        onConfirm: () => { run(n => dropBooking(n, findC(n, c.id), 'me', 'self')); say(`Cancelled ${c.name}. Your spot was released.`); } });
+    },
+    openDrawer: id => setDrawerId(id),
+    openNew: () => setModal({ kind: 'new' }),
+    openMember: then => setModal({ kind: 'member', then }),
+    addMember(f, thenId) {
+      const id = run(n => { const id = 'm' + n.nextId++; n.members[id] = { name: f.name.trim(), contact: f.contact.trim(), plan: f.plan }; log(n, 'admin', `Maria added ${f.name.trim()} as a new member`, f.plan); return id; });
+      const c = thenId && findC(ref.current, thenId);
+      if (c) { const full = c.booked.length >= c.cap; A.adminAdd(c, id); say(`${f.name.trim()} joined MOVA and ${full ? 'is on the waitlist for' : 'is booked into'} ${c.name}.`); }
+      else say(`${f.name.trim()} added to your members.`);
+    },
+    addClass(f) {
+      run(n => { const c = { id: n.nextId++, day: f.day, start: f.start, type: f.type, name: f.name.trim(), instructor: f.instructor, dur: f.dur, cap: f.cap, booked: [], waitlist: [], cancelled: false }; n.classes.push(c); log(n, 'admin', `Maria added ${c.name}`, when(c)); });
+      say(`${f.name} added to ${dayFull(f.day)}.`);
+    },
+    setCap(c, cap) {
+      const moved = run(n => { const x = findC(n, c.id); x.cap = cap; log(n, 'admin', `Maria set ${x.name} to ${cap} spots`, when(x)); return refill(n, x); });
+      if (moved.length) say(`${moved.map(nm).join(', ')} moved off the waitlist automatically.`, { tone: 'good' });
+    },
+    adminAdd(c, id) {
+      const full = c.booked.length >= c.cap;
+      run(n => { const x = findC(n, c.id); (full ? x.waitlist : x.booked).push(id); log(n, 'admin', `Maria ${full ? 'waitlisted' : 'booked'} ${nm(id)} ${full ? 'for' : 'into'} ${x.name}`, `Phone booking · ${when(x)}`); });
+      say(`${nm(id)} ${full ? 'added to the waitlist' : 'booked'}.`);
+    },
+    adminRemove(c, id) {
+      const moved = run(n => dropBooking(n, findC(n, c.id), id, 'admin'));
+      say(moved.length ? `${nm(id)} removed. ${nm(moved[0])} moved up from the waitlist.` : `${nm(id)} removed.`, moved.length ? { tone: 'good' } : {});
+    },
+    adminDropWait(c, id) { run(n => { const x = findC(n, c.id); x.waitlist = x.waitlist.filter(i => i !== id); }); say(`${nm(id)} removed from the waitlist.`); },
+    askCancelClass(c) {
+      setModal({ kind: 'confirm', title: `Cancel ${c.name}?`, body: `${c.booked.length} booked member${c.booked.length === 1 ? '' : 's'} and ${c.waitlist.length} waitlisted will be notified.`, confirm: 'Cancel class', keep: 'Keep class',
+        onConfirm: () => { run(n => { const x = findC(n, c.id); x.cancelled = true; log(n, 'admin', `Maria cancelled ${x.name}`, when(x)); if (x.booked.includes('me')) n.notifs.unshift({ id: 'n' + n.nextId++, text: `${x.name} (${when(x)}) was cancelled by the studio.`, time: 'Just now', read: false }); }); say(`${c.name} cancelled and members notified.`); } });
+    },
+  };
+
+  const simulate = () => {
+    setPop(null);
+    const cs = ref.current.classes.filter(c => !c.cancelled && !started(c) && c.booked.length);
+    const target = sortC(cs.filter(c => c.waitlist.includes('me')))[0] || sortC(cs.filter(c => c.waitlist.length))[0];
+    if (!target) return say('No class has a waitlist right now. Fill one up first.');
+    const victim = target.booked.find(id => id !== 'me');
+    const moved = run(n => dropBooking(n, findC(n, target.id), victim, 'self'));
+    if (moved.includes('me')) say(`You're in! A spot opened in ${target.name} (${when(target)}) and you've been booked.`, { tone: 'good' });
+    else say(`${nm(victim)} cancelled ${target.name}. ${nm(moved[0])} was moved up from the waitlist.`, { tone: 'good' });
+  };
+  const reset = () => { setPop(null); setDrawerId(null); const n = initData(); LIVE = n.members; ref.current = n; setD(n); say('Demo data reset.'); };
+  const unread = d.notifs.filter(n => !n.read).length;
+  const openBell = () => { setPop(pop === 'bell' ? null : 'bell'); if (pop !== 'bell') run(n => { n.notifs.forEach(x => x.read = true); }); };
+
+  const drawerC = drawerId && d.classes.find(c => c.id === drawerId);
+  return html`<div>
+    <header class="top"><div class="top-in">
+      <div class="brand"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="9" fill="#8FA895"/><circle cx="19" cy="15" r="9" fill="#C9856B" opacity=".85" style="mix-blend-mode:multiply"/></svg><div class="wm"><b>MOVA</b><small>Move well. Feel better.</small></div></div>
+      <div class="seg" role="group" aria-label="View as">
+        <button aria-pressed=${role === 'member'} onClick=${() => { setRole('member'); setDrawerId(null); }}>Member view</button>
+        <button aria-pressed=${role === 'admin'} onClick=${() => { setRole('admin'); setPop(null); }}>Admin view</button>
+      </div>
+      <div class="tools">
+        <button class="demo-btn" onClick=${() => setPop(pop === 'demo' ? null : 'demo')} aria-haspopup="true"><${Icon} n="flask" s=${16} /> Demo tools</button>
+        ${role === 'member' ? html`<button class="icon-btn" onClick=${openBell} aria-label="Notifications"><${Icon} n="bell" />${unread > 0 && html`<span class="badge-dot">${unread}</span>`}</button>` : html`<span class="icon-btn" style="visibility:hidden" aria-hidden="true"></span>`}
+        <div class="who"><${Avatar} id=${role === 'member' ? 'me' : 'owner'} />
+          <div><b>${role === 'member' ? 'Ana Souza' : 'Maria'}</b><span>${role === 'member' ? 'Member' : 'Owner'}</span></div></div>
+        ${pop && html`<div class="popscrim" onClick=${() => setPop(null)}></div>`}
+        ${pop === 'demo' && html`<div class="pop">
+          <button class="pop-i" onClick=${simulate}><span class="ic"><${Icon} n="bolt" s=${16} /></span><span><b>Simulate a cancellation</b><small>Someone drops out of a full class. The waitlist refills the spot instantly.</small></span></button>
+          <button class="pop-i" onClick=${() => { setPop(null); setModal({ kind: 'notes' }); }}><span class="ic"><${Icon} n="note" s=${16} /></span><span><b>Requirements & open questions</b><small>What I captured, my assumptions, what to confirm.</small></span></button>
+          <button class="pop-i" onClick=${reset}><span class="ic"><${Icon} n="refresh" s=${16} /></span><span><b>Reset demo data</b><small>Restore the starting schedule.</small></span></button>
+        </div>`}
+        ${pop === 'bell' && html`<div class="pop">
+          <div class="sect-t" style="padding:6px 10px 4px;margin:0">Notifications</div>
+          ${d.notifs.slice(0, 6).map(x => html`<div class="notif"><span style="color:var(--accent);flex:none;margin-top:1px"><${Icon} n="bell" s=${16} /></span><div>${x.text}<small>${x.time}</small></div></div>`)}
+        </div>`}
+      </div>
+    </div></header>
+    ${role === 'member' ? html`<${MemberView} d=${d} a=${A} ui=${{ flashId }} />` : html`<${AdminView} d=${d} a=${A} />`}
+    ${drawerC && html`<${ClassDrawer} c=${drawerC} a=${A} onClose=${() => setDrawerId(null)} />`}
+    ${modal && modal.kind === 'confirm' && html`<${Confirm} m=${modal} onClose=${() => setModal(null)} />`}
+    ${modal && modal.kind === 'new' && html`<${NewClassModal} a=${A} onClose=${() => setModal(null)} />`}
+    ${modal && modal.kind === 'member' && html`<${MemberModal} a=${A} then=${modal.then} onClose=${() => setModal(null)} />`}
+    ${modal && modal.kind === 'notes' && html`<${NotesModal} onClose=${() => setModal(null)} />`}
+    ${toast && html`<div class=${'toast ' + (toast.tone || '')} role="status" key=${toast.id}><span>${toast.msg}</span>${toast.action && html`<button onClick=${() => { toast.fn(); setToast(null); }}>${toast.action}</button>`}</div>`}
+  </div>`;
+}
+render(html`<${App} />`, document.getElementById('app'));
+</script>
+
+</body>
+</html>
